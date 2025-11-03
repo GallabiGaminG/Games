@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
         highScoreText = uiDocument.rootVisualElement.Q<Label>("HighScoreLabel");
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
         highScoreText.text = "High Score: " + highScore;
+        highScoreText.style.display = DisplayStyle.None;
 
         restartButton.clicked += ReloadScene;
     }
@@ -87,16 +88,16 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
-        Instantiate(explosionEffect, transform.position, transform.rotation);
         restartButton.style.display = DisplayStyle.Flex;
+        highScoreText.style.display = DisplayStyle.Flex;
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
         if (score > highScore)
         {
             PlayerPrefs.SetInt("HighScore", (int)score);
             PlayerPrefs.Save();
         }
-
+        Destroy(gameObject);
+        Instantiate(explosionEffect, transform.position, transform.rotation);
     }
 
     void ReloadScene()
