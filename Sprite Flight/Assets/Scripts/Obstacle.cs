@@ -8,6 +8,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public float maxSpeed = 150f;
     public float maxSpinSpeed = 10f;
 
+    public GameObject bounceEffectPrefab;
+
     Rigidbody2D rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,5 +32,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
     void Update()
     {
 
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Vector2 contactPoint = collision.GetContact(0).point;
+        float scale = rb.linearVelocity.magnitude * 0.02f;
+        GameObject bounceEffect = Instantiate(bounceEffectPrefab, contactPoint, Quaternion.identity);
+        bounceEffect.transform.localScale = Vector3.one * scale;
+        Destroy(bounceEffect, 1f);
     }
 }
