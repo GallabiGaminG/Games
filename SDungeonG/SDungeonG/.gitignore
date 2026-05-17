@@ -1,0 +1,68 @@
+# ========== Unity Generated Folders ==========
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# ========== Crash Reports ==========
+sysinfo.txt
+
+# ========== Cache & Auto-Generated ==========
+UserSettings/
+.vs/
+.idea/
+*.pidb
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.booproj
+*.svd
+
+# ========== IDE Artifacts ==========
+*.csproj
+*.unityproj
+*.sln
+*.mdb
+
+# ========== Build Artifacts ==========
+*.apk
+*.aab
+*.ipa
+*.app
+*.unitypackage
+*.exe
+*.dll
+*.pdb
+
+# ========== OS Trash ==========
+.DS_Store
+Thumbs.db
+
+# ========== Visual Studio Cache ==========
+*.obj
+*.cache
+*.pdb
+*.opendb
+*.VC.db
+
+# ========== Rider ==========
+*.sln.iml
+
+# ========== Unity Asset Store Tools ==========
+Assets/AssetStoreTools*
+
+# ========== Collab / Plastic ==========
+.collabignore
+.plastic/
+
+# ========== Addressables ==========
+/Assets/AddressableAssetsData/*/*.bin*
+/Assets/StreamingAssets/aa/*
+
+# ========== Generated UI Toolkit ==========
+*.uss.meta
+*.uxml.meta
