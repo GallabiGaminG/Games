@@ -1,0 +1,2 @@
+D:\GitHub\Projects\Games\SDungeonG\SDungeonG\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+D:\GitHub\Projects\Games\SDungeonG\SDungeonG\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt
