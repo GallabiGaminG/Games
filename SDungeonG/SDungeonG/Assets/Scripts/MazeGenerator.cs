@@ -72,12 +72,12 @@ public class MazeGenerator : MonoBehaviour
 
         Random.InitState(seed);
 
-        Debug.Log("Maze Seed: " + seed);
-
         if (seedText != null)
         {
             seedText.text = "SEED: " + seed;
         }
+
+        Debug.Log("Maze Seed: " + seed);
 
         cells = new Cell[width, height];
 
@@ -200,31 +200,53 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-    //public void ApplySettings()
-    public void ButtonPressed()
+    public void ApplySettings()
     {
-        Debug.Log("BUTONA BASILDI - ApplySettings calisti");
-        // Seed
-        if (int.TryParse(
-            seedInput.text,
-            out int newSeed))
+        Debug.Log("SET button pressed");
+
+        if (!string.IsNullOrWhiteSpace(seedInput.text))
         {
-            seed = newSeed;
-            useRandomSeed = false;
+            if (int.TryParse(seedInput.text, out int newSeed))
+            {
+                seed = newSeed;
+                useRandomSeed = false;
+
+                PlayerPrefs.SetInt("MazeSeed", seed);
+                PlayerPrefs.SetInt("UseRandomSeed", 0);
+            }
         }
 
-        // Maze Size
-        if (int.TryParse(
-            sizeInput.text,
-            out int newSize))
+        if (!string.IsNullOrWhiteSpace(sizeInput.text))
         {
-            width = newSize;
-            height = newSize;
+            if (int.TryParse(sizeInput.text, out int newSize))
+            {
+                width = newSize;
+                height = newSize;
+
+                PlayerPrefs.SetInt("MazeSize", newSize);
+            }
         }
 
-        // Sahneyi yeniden yükle
-        SceneManager.LoadScene(
-        SceneManager.GetActiveScene().buildIndex);
+        PlayerPrefs.Save();
+
+        RegenerateMaze();
+    }
+
+    public void RegenerateMaze()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        GenerateMaze();
+
+        cells[0, 0].bottomWall = false;
+        cells[width - 1, height - 1].topWall = false;
+
+        BuildMaze();
+
+        PositionSceneObjects();
     }
 
 }

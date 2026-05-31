@@ -1,78 +1,98 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.XR;
 
 public class PlayerMovement : MonoBehaviour
 {
-    /*
-     * public float speed = 6f;
-
-        private CharacterController controller;
-
-        void Start()
-        {
-            controller = GetComponent<CharacterController>();
-        }
-
-        void Update()
-        {
-            float x = Input.GetAxis("Horizontal");
-            float z = Input.GetAxis("Vertical");
-
-            Vector3 move = new Vector3(x, 0, z);
-
-            controller.Move(move * speed * Time.deltaTime);
-        }
-    */
-
+    [Header("Move Settings")]
     public float speed = 6f;
 
     private CharacterController controller;
-    
-    Vector3 moveDirection;
+
+    // Move direction coming from mobile UI buttons.
+    private Vector3 touchMoveDirection = Vector3.zero;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+
+        // Safety reset when scene starts.
+        touchMoveDirection = Vector3.zero;
     }
 
     void Update()
     {
-        controller.Move(
-            moveDirection *
-            speed *
-            Time.deltaTime
-        );
+    Vector3 keyboardMove = touchMoveDirection;
+
+    // Keyboard support
+
+    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+    {
+            keyboardMove = Vector3.forward;
     }
+
+    if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+    {
+            keyboardMove = Vector3.back;
+    }
+
+    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+    {
+            keyboardMove = Vector3.left;
+    }
+
+    if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+    {
+            keyboardMove = Vector3.right;
+    }
+
+    if (keyboardMove.sqrMagnitude > 1f)
+    {
+            keyboardMove.Normalize();
+    }
+
+    controller.Move(keyboardMove * speed * Time.deltaTime);
+
+        // 2) Mobile UI button movement.
+        Vector3 finalMove = keyboardMove;
+
+        // If a mobile direction button is pressed, use it.
+        if (touchMoveDirection.sqrMagnitude > 0.01f)
+        {
+            finalMove = touchMoveDirection;
+        }
+
+        // Prevent faster diagonal movement.
+        if (finalMove.sqrMagnitude > 1f)
+        {
+            finalMove.Normalize();
+        }
+
+        controller.Move(finalMove * speed * Time.deltaTime);
+    }
+
+    // These public methods are called by UI Button / EventTrigger.
 
     public void MoveUp()
     {
-        moveDirection =
-            Vector3.forward;
+        touchMoveDirection = Vector3.forward;
     }
 
     public void MoveDown()
     {
-        moveDirection =
-            Vector3.back;
+        touchMoveDirection = Vector3.back;
     }
 
     public void MoveLeft()
     {
-        moveDirection =
-            Vector3.left;
+        touchMoveDirection = Vector3.left;
     }
 
     public void MoveRight()
     {
-        moveDirection =
-            Vector3.right;
+        touchMoveDirection = Vector3.right;
     }
 
     public void StopMove()
     {
-        moveDirection =
-            Vector3.zero;
+        touchMoveDirection = Vector3.zero;
     }
-
 }
