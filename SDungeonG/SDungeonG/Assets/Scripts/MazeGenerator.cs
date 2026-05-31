@@ -191,7 +191,19 @@ public class MazeGenerator : MonoBehaviour
 
         if (player != null)
         {
-            player.position = new Vector3(0, 1, -cellSize);
+            CharacterController cc = player.GetComponent<CharacterController>();
+
+            if (cc != null)
+            {
+                cc.enabled = false;
+            }
+
+            player.position = new Vector3(0f, 1f, -cellSize);
+
+            if (cc != null)
+            {
+                cc.enabled = true;
+            }
         }
 
         if (finish != null)
@@ -249,4 +261,16 @@ public class MazeGenerator : MonoBehaviour
         PositionSceneObjects();
     }
 
+    public void NextMaze()
+    {
+        useRandomSeed = true;
+
+        seedInput.text = "";
+        sizeInput.text = "";
+
+        width = 20;
+        height = 20;
+
+        RegenerateMaze();
+    }
 }
