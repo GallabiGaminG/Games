@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour
     public Transform player;
 
     [Header("Oyuncuya Gore Kamera Mesafesi")]
-    public Vector3 offset = new Vector3(0f, 18f, -14f);
+public Vector3 offset = new Vector3(0f, 25f, -20f);
 
     [Header("Kameranin Sabit Acisi")]
     public Vector3 fixedRotation = new Vector3(55f, 0f, 0f);

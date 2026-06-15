@@ -30,6 +30,9 @@ public class MazeGenerator : MonoBehaviour
     public TMP_InputField seedInput;
     public TMP_InputField sizeInput;
 
+    public int winCount = 0;
+    public bool useExternalStartFinish;
+
     private class Cell
     {
         public bool visited;
@@ -56,9 +59,10 @@ public class MazeGenerator : MonoBehaviour
 
         GenerateMaze();
 
-        cells[0, 0].bottomWall = false;
-        cells[width - 1, height - 1].topWall = false;
+        //cells[0, 0].bottomWall = false;
+        //cells[width - 1, height - 1].topWall = false;
 
+        ApplySceneMode();
         BuildMaze();
         PositionSceneObjects();
     }
@@ -194,22 +198,44 @@ public class MazeGenerator : MonoBehaviour
             CharacterController cc = player.GetComponent<CharacterController>();
 
             if (cc != null)
-            {
                 cc.enabled = false;
-            }
 
-            player.position = new Vector3(0f, 1f, -cellSize);
+            player.position = new Vector3(0f, 1f, 0f);
 
             if (cc != null)
-            {
                 cc.enabled = true;
-            }
         }
 
         if (finish != null)
         {
-            finish.position = new Vector3((width - 1) * cellSize, 0.25f, height * cellSize);
+            finish.position = new Vector3(
+                (width - 1) * cellSize,
+                0.25f,
+                (height - 1) * cellSize
+            );
         }
+
+        //    if (player != null)
+        //    {
+        //        CharacterController cc = player.GetComponent<CharacterController>();
+
+        //        if (cc != null)
+        //        {
+        //            cc.enabled = false;
+        //        }
+
+        //        player.position = new Vector3(0f, 1f, -cellSize);
+
+        //        if (cc != null)
+        //        {
+        //            cc.enabled = true;
+        //        }
+        //    }
+
+        //    if (finish != null)
+        //    {
+        //        finish.position = new Vector3((width - 1) * cellSize, 0.25f, height * cellSize);
+        //    }
     }
 
     public void ApplySettings()
@@ -253,24 +279,42 @@ public class MazeGenerator : MonoBehaviour
 
         GenerateMaze();
 
-        cells[0, 0].bottomWall = false;
-        cells[width - 1, height - 1].topWall = false;
+        //cells[0, 0].bottomWall = false;
+        //cells[width - 1, height - 1].topWall = false;
 
+        ApplySceneMode();
         BuildMaze();
-
         PositionSceneObjects();
     }
 
     public void NextMaze()
     {
+        winCount++;
+
+        // Her 5 kazanmada maze buyusun
+        if (winCount % 5 == 0)
+        {
+            width++;
+            height++;
+        }
+
         useRandomSeed = true;
 
-        seedInput.text = "";
-        sizeInput.text = "";
-
-        width = 20;
-        height = 20;
+        seed = Random.Range(0, 999999);
 
         RegenerateMaze();
+    }
+
+    void ApplySceneMode()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        useExternalStartFinish = sceneName == "TestScene";
+
+        if (useExternalStartFinish)
+        {
+            cells[0, 0].bottomWall = false;
+            cells[width - 1, height - 1].topWall = false;
+        }
     }
 }
