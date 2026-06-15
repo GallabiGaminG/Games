@@ -7,12 +7,25 @@ public class ExitTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Finish trigger entered by: " + other.name);
+
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Kazandin! Labirent yeniden basliyor.");
+            Debug.Log("Player reached finish.");
 
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); --- Sahnenin basina atmak yerine gelistirmeler tamamlandigi icin finishte yeniden map generate edilir hale geitirildi.
-            mazeGenerator.NextMaze();
+            if (mazeGenerator != null)
+            {
+                mazeGenerator.NextMaze();
+                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); --- Sahnenin basina atmak yerine gelistirmeler tamamlandigi icin finishte yeniden map generate edilir hale geitirildi.
+            }
+            else
+            {
+                Debug.LogError("MazeGenerator reference is missing.");
+            }
+        }
+        else
+        {
+            Debug.Log("Entered object is not Player. Tag: " + other.tag);
         }
     }
 }

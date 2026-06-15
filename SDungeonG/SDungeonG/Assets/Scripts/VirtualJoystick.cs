@@ -41,6 +41,8 @@ public class VirtualJoystick : MonoBehaviour,
         handle.anchoredPosition = clampedPoint;
 
         Direction = clampedPoint / radius;
+
+        Debug.Log(Direction);
     }
 
     public void OnPointerUp(PointerEventData eventData)
